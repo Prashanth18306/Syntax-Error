@@ -8,7 +8,7 @@ export function Navbar() {
                 <div className="mr-4 hidden md:flex">
                     <Link className="mr-6 flex items-center space-x-2" href="/">
                         <span className="hidden font-bold sm:inline-block">
-                            Careercompass
+                            CareerOptima
                         </span>
                     </Link>
                     <nav className="flex items-center gap-6 text-sm">
@@ -16,26 +16,21 @@ export function Navbar() {
                             className="transition-colors hover:text-foreground/80 text-foreground/60"
                             href="/companies"
                         >
-                            Startups & MNCs (S4)
+                            Startups & MNCs
                         </Link>
                         <Link
                             className="transition-colors hover:text-foreground/80 text-foreground/60"
                             href="/roadmap"
                         >
-                            Skill Roadmap (M1)
+                            Skill Roadmap
                         </Link>
                         <Link
                             className="transition-colors hover:text-foreground/80 text-foreground/60"
                             href="/interview"
                         >
-                            Mock Interview (H2)
+                            Mock Interview
                         </Link>
-                        <Link
-                            className="transition-colors hover:text-foreground/80 text-foreground/60"
-                            href="/revenue"
-                        >
-                            Business Model
-                        </Link>
+
                     </nav>
                 </div>
                 <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
