@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Metadata } from "next";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
                 <Navbar />
                 <main className="flex-1">{children}</main>
                 <Footer />
+                <Toaster />
             </body>
         </html>
     );

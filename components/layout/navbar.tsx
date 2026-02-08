@@ -26,9 +26,15 @@ export function Navbar() {
                         </Link>
                         <Link
                             className="transition-colors hover:text-foreground/80 text-foreground/60"
+                            href="/interview"
+                        >
+                            Mock Interview (H2)
+                        </Link>
+                        <Link
+                            className="transition-colors hover:text-foreground/80 text-foreground/60"
                             href="/revenue"
                         >
-                            Our Business Model
+                            Business Model
                         </Link>
                     </nav>
                 </div>

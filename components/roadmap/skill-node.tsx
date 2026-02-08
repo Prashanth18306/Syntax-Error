@@ -23,13 +23,20 @@ export function SkillNodeCard({ skill, status, onToggleStatus }: SkillNodeProps)
         "High": "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400",
         "Medium": "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
         "Nice to Have": "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400"
+        "Nice to Have": "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400"
     };
+
+    // H2 Adaptive Logic: Check if upgraded
+    const isUpgraded = skill.id === "pm-comm-1" && typeof window !== 'undefined' && localStorage.getItem("h2_triggered") === "true";
+    const displayPriority = isUpgraded ? "Critical" : skill.priority;
+    const finalColor = isUpgraded ? "bg-purple-100 text-purple-800 border-purple-500 animate-pulse" : priorityColor[skill.priority];
 
     return (
         <Card className={cn(
             "relative p-4 flex gap-4 transition-all duration-300 border-l-4",
             isLocked ? "opacity-60 bg-muted/50 border-l-gray-300" :
-                isCompleted ? "bg-green-50/50 border-l-green-500 dark:bg-green-900/10" : "border-l-primary hover:shadow-md"
+                isCompleted ? "bg-green-50/50 border-l-green-500 dark:bg-green-900/10" :
+                    isUpgraded ? "bg-purple-50 border-l-purple-600 shadow-lg ring-2 ring-purple-200" : "border-l-primary hover:shadow-md"
         )}>
             {/* Connector Line (Simplistic visualization) */}
             {skill.dependsOn && (
@@ -52,8 +59,9 @@ export function SkillNodeCard({ skill, status, onToggleStatus }: SkillNodeProps)
                         </h3>
                         <p className="text-sm text-muted-foreground">{skill.description}</p>
                     </div>
-                    <Badge className={priorityColor[skill.priority]} variant="outline">
-                        {skill.priority}
+                    <Badge className={finalColor} variant="outline">
+                        {displayPriority}
+                        {isUpgraded && " (AI Recom.)"}
                     </Badge>
                 </div>
 
