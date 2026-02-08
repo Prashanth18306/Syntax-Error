@@ -12,9 +12,10 @@ interface SkillNodeProps {
     skill: SkillNode;
     status: SkillStatus;
     onToggleStatus: (id: string) => void;
+    isAdaptiveHighlight?: boolean;
 }
 
-export function SkillNodeCard({ skill, status, onToggleStatus }: SkillNodeProps) {
+export function SkillNodeCard({ skill, status, onToggleStatus, isAdaptiveHighlight }: SkillNodeProps) {
     const [viewedResources, setViewedResources] = useState<string[]>([]);
     const isLocked = status === "Locked";
     const isCompleted = status === "Completed";
@@ -39,8 +40,16 @@ export function SkillNodeCard({ skill, status, onToggleStatus }: SkillNodeProps)
         <Card className={cn(
             "relative p-5 transition-all duration-300 border-l-4",
             isLocked ? "opacity-60 bg-muted/30 border-l-gray-300 grayscale select-none" :
-                isCompleted ? "bg-green-50/30 border-l-green-500 shadow-sm" : "border-l-primary shadow-md hover:shadow-lg"
+                isCompleted ? "bg-green-50/30 border-l-green-500 shadow-sm" :
+                    isAdaptiveHighlight ? "border-l-amber-500 bg-amber-50/20 shadow-xl ring-2 ring-amber-500/10 animate-pulse-subtle" : "border-l-primary shadow-md hover:shadow-lg"
         )}>
+            {isAdaptiveHighlight && (
+                <div className="absolute -top-3 right-4">
+                    <Badge className="bg-amber-500 text-white border-white shadow-md px-3 py-1 rounded-full text-[10px] font-black italic flex items-center gap-1">
+                        <Rocket className="w-3 h-3" /> Priority Focus
+                    </Badge>
+                </div>
+            )}
             {/* Header Area */}
             <div className="flex gap-4 items-start">
                 <div className={cn(

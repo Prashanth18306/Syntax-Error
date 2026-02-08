@@ -13,16 +13,42 @@ import { Toaster } from "@/components/ui/toaster";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 
+const ADAPTIVE_MAP: Record<string, string> = {
+    "Technical Communication": "soft-skills",
+    "System Design": "system-design",
+    "Data Structures": "data-structures",
+    "Machine Learning": "ai-fundamentals",
+    "Programming foundations": "programming-101",
+};
+
 export default function RoadmapPage() {
     const { toast } = useToast();
     const [completedSkills, setCompletedSkills] = useState<string[]>([]);
     const [isClient, setIsClient] = useState(false);
+    const [adaptiveData, setAdaptiveData] = useState<{ triggered: boolean; weakness: string; score: string } | null>(null);
 
     useEffect(() => {
         const saved = localStorage.getItem("completedSkills");
         if (saved) setCompletedSkills(JSON.parse(saved));
+
+        const triggered = localStorage.getItem("h2_triggered") === "true";
+        if (triggered) {
+            setAdaptiveData({
+                triggered: true,
+                weakness: localStorage.getItem("h2_weakness") || "General Technical Depth",
+                score: localStorage.getItem("h2_score") || "0"
+            });
+        }
         setIsClient(true);
     }, []);
+
+    const dismissAdaptive = () => {
+        localStorage.removeItem("h2_triggered");
+        localStorage.removeItem("h2_weakness");
+        localStorage.removeItem("h2_score");
+        localStorage.removeItem("h2_status");
+        setAdaptiveData(null);
+    };
 
     const toggleSkill = (id: string) => {
         const isCurrentlyCompleted = completedSkills.includes(id);
@@ -91,7 +117,7 @@ export default function RoadmapPage() {
 
                 {/* New Feature: Role Checklist (S2), Benchmarking (S5), Trends (H1) */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <Card className="p-6 border-2 border-dashed bg-muted/30">
+                    <Card className="p-6 border-2 border-dashed bg-muted/30 rounded-[2rem]">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-700">
                                 <Compass className="w-6 h-6" />
@@ -109,7 +135,7 @@ export default function RoadmapPage() {
                         <Badge variant="outline" className="mt-4 text-[10px] uppercase">Feature S2</Badge>
                     </Card>
 
-                    <Card className="p-6 border-2 border-dashed bg-muted/30">
+                    <Card className="p-6 border-2 border-dashed bg-muted/30 rounded-[2rem]">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700">
                                 <Search className="w-6 h-6" />
@@ -117,11 +143,11 @@ export default function RoadmapPage() {
                             <h3 className="font-bold">Benchmarking Tool</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">Compare your current skill level against industry standards.</p>
-                        <Button variant="outline" size="sm" className="w-full">Run Benchmark Scan</Button>
+                        <Button variant="outline" size="sm" className="w-full rounded-xl">Run Benchmark Scan</Button>
                         <Badge variant="outline" className="mt-4 text-[10px] uppercase">Feature S5</Badge>
                     </Card>
 
-                    <Card className="p-6 border-2 border-primary/20 bg-primary/5 relative overflow-hidden">
+                    <Card className="p-6 border-2 border-primary/20 bg-primary/5 relative overflow-hidden rounded-[2rem]">
                         <div className="absolute top-0 right-0 p-2">
                             <TrendingUp className="w-8 h-8 text-primary opacity-20" />
                         </div>
@@ -154,27 +180,23 @@ export default function RoadmapPage() {
                     </p>
                 </div>
 
-                {isClient && localStorage.getItem("h2_triggered") === "true" && (
-                    <div className="bg-amber-50 border-2 border-amber-200 p-6 rounded-3xl flex flex-col md:flex-row items-center gap-6 animate-in zoom-in duration-500">
+                {adaptiveData && (
+                    <div className="bg-amber-50 border-2 border-amber-200 p-6 rounded-3xl flex flex-col md:flex-row items-center gap-6 animate-in zoom-in duration-500 shadow-xl shadow-amber-900/5">
                         <div className="h-16 w-16 bg-amber-100 rounded-full flex items-center justify-center shrink-0 shadow-inner">
                             <Sparkles className="w-8 h-8 text-amber-600" />
                         </div>
-                        <div className="space-y-1 text-center md:text-left">
+                        <div className="space-y-1 text-center md:text-left flex-1">
                             <h3 className="text-lg font-bold text-amber-900">Adaptive Goal Injected! ⚡</h3>
                             <p className="text-sm text-amber-800/80 leading-relaxed">
-                                Our AI analyzed your recent mock interview and detected a gap in <span className="font-bold underline decoration-amber-400">{localStorage.getItem("h2_weakness") || "Stakeholder Communication"}</span>.
-                                We've added <strong>Technical Communication</strong> to your roadmap and marked it as a priority goal.
+                                Our AI analyzed your recent mock interview (Score: <span className="font-bold text-amber-900">{adaptiveData.score}%</span>) and detected a gap in <span className="font-bold underline decoration-amber-400">{adaptiveData.weakness}</span>.
+                                We've customized your roadmap to prioritize technical depth in this area.
                             </p>
                         </div>
                         <Button
                             variant="outline"
                             size="sm"
-                            className="bg-white border-amber-200 text-amber-700 hover:bg-amber-100 shrink-0"
-                            onClick={() => {
-                                localStorage.removeItem("h2_triggered");
-                                localStorage.removeItem("h2_weakness");
-                                window.location.reload();
-                            }}
+                            className="bg-white border-amber-200 text-amber-700 hover:bg-amber-100 shrink-0 rounded-xl px-6 h-10 font-bold"
+                            onClick={dismissAdaptive}
                         >
                             Dismiss Insight
                         </Button>
@@ -192,6 +214,7 @@ export default function RoadmapPage() {
                             skill={skill}
                             status={getStatus(skill.id, skill.dependsOn)}
                             onToggleStatus={toggleSkill}
+                            isAdaptiveHighlight={adaptiveData?.weakness ? ADAPTIVE_MAP[adaptiveData.weakness] === skill.id : false}
                         />
                     ))}
                 </div>
