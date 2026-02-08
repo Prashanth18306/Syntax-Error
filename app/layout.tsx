@@ -1,13 +1,15 @@
-import type { Metadata } from "next";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
+import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-    title: "Careercompass",
-    description: "Intelligent Career Guidance System",
+    title: "Careercompass - Intelligent Career Guidance",
+    description: "Navigate your career with confidence using data-driven insights and personalized roadmaps.",
 };
 
 export default function RootLayout({
@@ -17,10 +19,16 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={cn(
-                "min-h-screen bg-background font-sans antialiased",
-                inter.variable
-            )}>{children}</body>
+            <body
+                className={cn(
+                    "min-h-screen bg-background font-sans antialiased",
+                    inter.variable
+                )}
+            >
+                <Navbar />
+                <main className="flex-1">{children}</main>
+                <Footer />
+            </body>
         </html>
     );
 }

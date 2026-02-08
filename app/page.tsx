@@ -1,56 +1,81 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Globe, Layers, Zap } from "lucide-react";
+
 export default function Home() {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-                <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-                    Careercompass
-                </p>
-            </div>
-            <div className="relative flex place-items-center flex-col gap-4">
-                <h1 className="text-4xl font-bold tracking-tight lg:text-5xl text-center">
-                    Intelligent Career Guidance
-                </h1>
-                <p className="text-muted-foreground text-center max-w-[600px]">
-                    Navigate your career with confidence using data-driven insights and personalized roadmaps.
-                </p>
-            </div>
-            <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left gap-4">
-                <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-                    <h2 className="mb-3 text-2xl font-semibold">
-                        Explore Companies{" "}
-                        <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                            -&gt;
-                        </span>
-                    </h2>
-                    <p className="m-0 max-w-[30ch] text-sm opacity-50">
-                        Find roles in Startups, MNCs, and specialized sectors.
+        <div className="flex flex-col min-h-screen">
+            {/* Hero Section */}
+            <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
+                <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
+                    <Link
+                        href="/companies"
+                        className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
+                        target="_blank"
+                    >
+                        Wait, I can work at Tesla? 🚀
+                    </Link>
+                    <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+                        Navigate Your Career with <br className="hidden sm:inline" />
+                        <span className="text-primary">Data-Driven Clarity.</span>
+                    </h1>
+                    <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+                        Stop guessing. Start preparing. Discover hidden companies, prioritize the right skills, and get adaptive feedback to crack your dream role.
                     </p>
+                    <div className="space-x-4">
+                        <Button size="lg" asChild>
+                            <Link href="/companies">Explore Companies</Link>
+                        </Button>
+                        <Button size="lg" variant="outline" asChild>
+                            <Link href="/roadmap">View Roadmap</Link>
+                        </Button>
+                    </div>
                 </div>
+            </section>
 
-                <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-                    <h2 className="mb-3 text-2xl font-semibold">
-                        Skill Roadmap{" "}
-                        <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                            -&gt;
-                        </span>
-                    </h2>
-                    <p className="m-0 max-w-[30ch] text-sm opacity-50">
-                        Prioritize what to learn with structured paths.
+            {/* Feature Grid */}
+            <section className="container space-y-6 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24 rounded-3xl" id="features">
+                <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
+                    <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+                        <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
+                            <Globe className="h-12 w-12 text-primary" />
+                            <div className="space-y-2">
+                                <h3 className="font-bold">Company Discovery (S4)</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    Find mapped roles in Startups, MNCs, and specialized industries like Aerospace & IoT.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+                        <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
+                            <Layers className="h-12 w-12 text-primary" />
+                            <div className="space-y-2">
+                                <h3 className="font-bold">Skill Prioritization (M1)</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    Don't learn everything. Learn what matters. Structured roadmaps with dependency graphs.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+                        <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
+                            <Zap className="h-12 w-12 text-primary" />
+                            <div className="space-y-2">
+                                <h3 className="font-bold">Adaptive Guidance (H2)</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    Failing mock interviews? Our system dynamically updates your learning path.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="mx-auto text-center md:max-w-[58rem]">
+                    <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+                        Careercompass replaces confusion with strategy.
                     </p>
                 </div>
-
-                <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-                    <h2 className="mb-3 text-2xl font-semibold">
-                        Adaptive Coach{" "}
-                        <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                            -&gt;
-                        </span>
-                    </h2>
-                    <p className="m-0 max-w-[30ch] text-sm opacity-50">
-                        Closed-loop guidance based on your performance.
-                    </p>
-                </div>
-            </div>
-        </main>
+            </section>
+        </div>
     );
 }
